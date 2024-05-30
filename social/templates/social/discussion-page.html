@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .children {margin-left: 25px;}
+</style>
+
+<h2>{{ discussion.title }}</h2>
+{% if discussion.status == 0 %}
+<div style="color: red;">Статус: Обсуждение закрыто</div>
+{% else %}
+<div style="color: green;"><p>Статус: Обсуждение открыто</p></div>
+{% endif %}
+<p>{{ discussion.description }}</p>
+
+
+{% if discussion.tasks.all.count > 0 %}
+<p>Задачи:</p>
+<ul>
+{% for task in discussion.tasks.all %}
+<li>
+    <p><a href="{% url 'todo:task_page' task.slug %}">{{ task.title }}</a></p>
+    {% if task.status == 0 %}
+    <p style="color: green">Статус: Задача закрыта <img src="{% static 'images/check-mark.png' %}" style="width: 25px; height: 25px;"></p>
+    {% else %}
+    <p style="color: grey">Статус: Задача открыта </p>
+    {% endif %}
+    <button><a href="{% url 'todo:task_page' task.slug %}">Подробнее</a></button>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>Задач по обсуждению нет</p>
+{% endif %}
+
+<p>Время создания: {{ discussion.time_create }}</p>
+<p>Автор: {{discussion.author}}</p>
+<button><a href="{% url 'delete_discussion' discussion.slug %}">Удалить обсуждение</a></button>
+<button><a href="{% url 'update_discussion' discussion.slug %}">Редактировать обсуждение</a></button>
+<button><a href="{% url 'add_discussion_task' discussion.slug %}">Добавить задачу</a></button>
+<hr>
+
+{% if discussion.comments.count %}
+<h2>Комментарии ({{discussion.comments.count}})</h2>
+{% else %}
+<h2>Добавьте комментарий</h2>
+{% endif %}
+<form method="POST" id="myForm">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Добавить</button>
+</form>
+{% include 'social/comment.html' %}
+<hr>
+
+{% endblock %}

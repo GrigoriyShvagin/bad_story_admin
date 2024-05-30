@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Профиль</h1>
+
+<p>Ваш логин {{ user.username }}</p>
+<p>Ваша почта {{ user.email }}</p>
+<hr>
+<p><a href="{% url 'users:password_change' %}">Изменить пароль</a></p>
+{% endblock %}

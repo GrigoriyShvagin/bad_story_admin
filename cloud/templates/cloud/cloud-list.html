@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Cloud</h1>
+<button><a href="{% url 'cloud:add_folder' %}">Создать папку</a></button>
+<button><a href="{% url 'cloud:delete_folders' %}">Выбрать папки</a></button>
+<ul>
+    {% for folder in folders %}
+    <li style="list-style-type: none;">
+        <a href="{% url 'cloud:folder_detail' folder.slug %}">
+            <img style="width: 20px; height: 20px; position:absolute; margin-right: 100%; margin-top: -2px;" src="{% static 'images/folder.png' %}">
+        </a>
+        <p style="margin-left:25px;"><a href="{% url 'cloud:folder_detail' folder.slug %}">{{ folder.name }}</a></p>
+        <p>Папку создал {{folder.author}} в {{folder.time_create}}</p>
+    </li>
+    {% endfor %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</ul>
+
+{% endblock %}

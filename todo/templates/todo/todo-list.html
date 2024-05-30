@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<h2>ToDo List</h2>
+
+<button><a href="{% url 'todo:add_task' %}">+</a></button>
+
+<ul>
+{% for task in tasks %}
+<li>
+    <p>Автор: {{task.author}}</p>
+    <p>Дата создания задачи: {{task.time_create}}</p>
+    {% if task.status == 0 %}
+    <p style="color: green">Статус: Задача закрыта <img src="{% static 'images/check-mark.png' %}" style="width: 25px; height: 25px;"></p>
+    {% else %}
+    <p style="color: grey">Статус: Задача открыта </p>
+    {% endif %}
+
+    {% if task.discussion %}
+    <p>Обсуждение - <a href="{% url 'discussion' task.discussion.slug %}">{{task.discussion}}</a></p>
+    {% else %}
+    <p>Задача не привязана к обсуждению</p>
+    {% endif %}
+
+    <h2>Задача: {{task.title}}</h2>
+    <p>Описание: {{task.description}}</p>
+    <p style="color: red;">Дедлайн до {{task.deadline}}</p>
+    <button><a href="{% url 'todo:task_page' task.slug %}">Подробнее</a></button>
+
+    {% if task.status == 1 %}
+    <button type="submit"><a href="{% url 'todo:task_toggle_complete' task.slug %}">Закрыть</a></button>
+    {% else %}
+    <button type="submit"><a href="{% url 'todo:task_toggle_complete' task.slug %}">Открыть</a></button>
+    {% endif %}
+
+    <button><a href="{% url 'todo:delete_task' task.slug %}">Удалить задачу</a></button>
+    <button><a href="{% url 'todo:update_task' task.slug %}">Редактировать задачу</a></button>
+
+{% endfor %}
+</ul>
+
+{% endblock %}

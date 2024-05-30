@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<ul>
+    {% for m in menu %}
+    <li>
+        <a href="{% url m.url %}">{{ m.title }}</a>
+    </li>
+    {% endfor %}
+
+    <li>
+        <a href="{% url 'todo:list' %}">ToDo</a>
+    </li>
+
+    <li>
+        <a href="{% url 'links:link_list' %}">Ссылки</a>
+    </li>
+    <li>
+        <a href="{% url 'cloud:cloud_list' %}">Облако</a>
+    </li>
+    <li>
+        <a href="{% url 'calendar:calendar' %}">Календарь</a>
+    </li>
+
+    {% if not user.is_authenticated %}
+    <li>
+        <a href="{% url 'users:login' %}">Войти</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="{% url 'users:logout' %}">Выйти</a> <p><a href="{% url 'users:profile' %}">Профиль {{ user.username }}</a></p>
+    </li>
+
+    {% endif %}
+
+</ul>
+
+{% block content %}
+
+{% endblock %}
+</body>
+</html>

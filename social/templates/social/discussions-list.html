@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h3>Поиск обсуждений</h3>
+    <form method="POST" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="search" placeholder="Введите название..." name="q">
+        <button type="submit">Искать</button>
+    </form>
+</div>
+<hr>
+<button><a href="{% url 'add_discussion' %}">Добавить обсуждение</a></button>
+<hr>
+<ul>
+{% for d in discussions %}
+<li>
+    <h2>{{ d.title }}</h2>
+
+    {% if d.status == 0 %}
+
+    <div style="color: red;">Статус: Обсуждение закрыто</div>
+    {% else %}
+    <div style="color: green;"><p>Статус: Обсуждение открыто</p></div>
+    {% endif %}
+
+    <p>{{ d.description }}</p>
+    <p>Количество задач: {{ d.tasks.all|length }}</p>
+    <p>Автор: {{d.author}}</p>
+    <p>Время создания: {{ d.time_create }}</p>
+    <button class="btn btn-primary" data-mdb-ripple-init><a style="color: black; text-decoration: none;" href="{{ d.get_absolute_url }}">Подробнее</a></button>
+    <hr>
+</li>
+{% endfor %}
+</ul>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if discussions.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ discussions.previous_page_number }}">Предыдущая страница</a>
+    </li>
+    {% endif %}
+
+    {% for p in discussions.paginator.page_range %}
+    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+    {% endfor %}
+
+    {% if discussions.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ discussions.next_page_number }}">Следующая страница</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

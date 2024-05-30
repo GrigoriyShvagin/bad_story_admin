@@ -1,0 +1,48 @@
+{% load mptt_tags %}
+
+<div>
+{% recursetree discussion.comments.all %}
+    <!--Основной комментарий-->
+    <div id="{{ node.id }}" style="border: 1px solid grey; margin: 15px;">
+    <div>Автор {{node.author}}</div><div>Дата создания: {{node.created}}</div>
+    <div>Комменатрий: {{node.body}}</div>
+    {% if node.level < 10 %}
+    <button class="button" onclick="myFunction({{ node.id }})">Ответить</button>
+    <p><a href="{% url 'delete_comment' node.id %}">Удалить комментарий</a></p>
+    {% endif %}
+    </div>
+
+    <!--Проверка есть ли у него дочерние комментарии-->
+    {% if not node.is_leaf_node %}
+    <div class="children">
+    <p>Ответ для: {{node.author}}</p>
+    {{ children }}
+    </div>
+    {% endif %}
+{% endrecursetree %}
+</div>
+<script>
+    function formExit(id) {
+      document.getElementById("newForm").remove();
+    }
+
+    function myFunction(id) {
+
+      if (document.contains(document.getElementById("newForm"))) {
+        document.getElementById("newForm").remove();
+      }
+
+      var a = document.getElementById(id);
+      a.insertAdjacentHTML('afterend',
+      '<form method="POST" id="newForm">\
+      {% csrf_token %}\
+      <input type="text" name="body" maxlength="255" required="" id="id_body">\
+      <select name="parent" class="d-none" id="id_parent">\
+      <option value="' + id + '" selected="'+ id +'"></option>\
+      </select> \
+      <div class="d-flex justify-content-left"><div><button type="submit">Добавить</button></div><div><button type="button" onclick="formExit()">Закрыть</button></div>\
+      </form>');
+    }
+
+ $('#myForm').trigger('reset');
+</script>
