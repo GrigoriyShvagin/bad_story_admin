@@ -1,48 +1,203 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>BadStory</title>
+  </head>
+  <body>
+    <div class="header_block">
+      <div class="logo">
+        <a href="/"
+          ><img
+            src="{% static '/social/images/logo.png' %}"
+            alt=""
+            style="width: 80px"
+        /></a>
+      </div>
+      <div class="header-text">
+        {% if not user.is_authenticated %}
+        <li class="login_block">
+          <a href="{% url 'users:login' %}">Войти</a>
+        </li>
+        {% else %}
+        <li class="login_block">
+          <a href="{% url 'users:logout' %}" class="login_block_link">Выйти</a>
+          <a href="{% url 'users:profile' %}" class="">{{user.username}}</a>
+        </li>
+        {% endif %}
+      </div>
+    </div>
+    <div class="content-block">
+      <ul class="content-block_list">
+        {% for m in menu %}
+        <li class="page-link">
+          <a href="{% url m.url %} " class="{{m.url}}">{{ m.title }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-link" id="todo">
+          <a href="{% url 'todo:list' %}">ToDo</a>
+        </li>
+        <li class="page-link" id="links">
+          <a href="{% url 'links:link_list' %}" class="flex text-xl">Ссылки</a>
+        </li>
+        <li class="page-link" id="cloud">
+          <a href="{% url 'cloud:cloud_list' %}">Облако</a>
+        </li>
+        <li class="page-link" id="calendar">
+          <a href="{% url 'calendar:calendar' %}">Календарь</a>
+        </li>
+      </ul>
+      <div class="content-block_page">{% block content %}</div>
+      {% endblock %}
+    </div>
+  </body>
+  <script>
+    function getCurrentLink() {
+      const url = window.location.href.split("/");
+      const currentUrl = url[3];
+      if (!currentUrl) {
+        document.querySelector(".index").classList.add("greenLink");
+      } else if (currentUrl == "discussions") {
+        document.querySelector(".discussions").classList.add("greenLink");
+      }
+    }
+    getCurrentLink();
+  </script>
+  <style>
+    .ck-editor-container {
+      margin-left: 20px;
+      width: 800px;
+      border-radius: 20px;
+    }
+    .ck-dropdown__panel_se {
+      width: 300px !important;
+    }
+    .ck-word-count {
+      color: white;
+    }
+    label {
+      color: white;
+    }
 
-</head>
-<body>
-
-<ul>
-    {% for m in menu %}
-    <li>
-        <a href="{% url m.url %}">{{ m.title }}</a>
-    </li>
-    {% endfor %}
-
-    <li>
-        <a href="{% url 'todo:list' %}">ToDo</a>
-    </li>
-
-    <li>
-        <a href="{% url 'links:link_list' %}">Ссылки</a>
-    </li>
-    <li>
-        <a href="{% url 'cloud:cloud_list' %}">Облако</a>
-    </li>
-    <li>
-        <a href="{% url 'calendar:calendar' %}">Календарь</a>
-    </li>
-
-    {% if not user.is_authenticated %}
-    <li>
-        <a href="{% url 'users:login' %}">Войти</a>
-    </li>
-    {% else %}
-    <li>
-        <a href="{% url 'users:logout' %}">Выйти</a> <p><a href="{% url 'users:profile' %}">Профиль {{ user.username }}</a></p>
-    </li>
-
-    {% endif %}
-
-</ul>
-
-{% block content %}
-
-{% endblock %}
-</body>
+    .header-text {
+      font-size: 20px;
+      line-height: 23.52px;
+      font-weight: 500px;
+      letter-spacing: 1px;
+    }
+    .greenLink {
+      color: #24ff00;
+    }
+    a {
+      transition: 0.3s;
+    }
+    a:hover {
+      color: #24ff00;
+    }
+    .page-link {
+      padding: 10px 20px 10px 20px;
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 35.34px;
+      letter-spacing: 1px;
+    }
+    .content-block_list {
+      width: 20%;
+      margin-left: 4px;
+      background: #3232328c;
+    }
+    .content-block_page {
+      margin-left: 4px;
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .content-block {
+      display: flex;
+      justify-content: space-between;
+    }
+    .login_block {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login_block_link {
+      margin-right: 20px;
+    }
+    ul,
+    li {
+      list-style-type: none;
+      padding-inline-start: 0px;
+    }
+    .header_block {
+      background: #3232328c;
+      margin: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 30px;
+    }
+    html {
+      font-family: "LG";
+    }
+    @font-face {
+      font-family: "LG";
+      src: url("{% static '/social/fonts/15772.otf' %}");
+    }
+    body {
+      background: url("{% static '/social/images/bg.png' %}") #0c0b0be8;
+      color: white;
+      margin: 0px;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    * {
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
+    #id_parent {
+      display: none;
+    }
+    #myForm {
+      display: flex;
+    }
+    #newForm input {
+      margin-left: 20px;
+    }
+    #id_body:not(input) {
+      margin-left: 20px;
+      background: #3232328c;
+      width: 92%;
+      height: 100px;
+      color: white;
+    }
+    .infoDesc {
+      width: 400px;
+    }
+    .infoDesc img {
+      width: 200px;
+      height: auto;
+    }
+    .infoData {
+      width: 150px;
+    }
+    .infoTitle {
+      width: 200px;
+    }
+    .status img {
+      width: 400px;
+      height: auto;
+    }
+    #id_choice {
+      color: white;
+      option {
+        color: black;
+      }
+    }
+  </style>
 </html>

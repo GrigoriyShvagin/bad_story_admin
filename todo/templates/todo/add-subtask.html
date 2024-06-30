@@ -1,10 +1,16 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>Добавить Подзадачу</h1>
-<form method="POST">
+{% extends 'base.html' %} {% block content %} {%load static%}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/add-subtask.css' %}"
+/>
+<form method="POST" class="form_post">
   {% csrf_token %}
   {{ form.as_p }}
+
   <div class="form-error">{{ f.errors }}</div>
   <button type="submit">Добавить</button>
 </form>
+
+<style></style>
 {% endblock %}

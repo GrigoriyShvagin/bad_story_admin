@@ -1,57 +1,79 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %} {%load static%}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/search-disscussion.css' %}"
+/>
 
-{% block content %}
 <div>
-    <h3>Поиск обсуждений</h3>
-    <form method="POST" action="{% url 'search' %}">
-        {% csrf_token %}
-        <input type="search" placeholder="Введите название..." name="q">
-        <button type="submit">Искать</button>
+  <h3 class="title">Поиск обсуждений</h3>
+  <div class="current_page_buttons_list">
+    <form method="POST" action="{% url 'search' %}" class="post_form">
+      {% csrf_token %}
+      <input
+        type="search"
+        placeholder="Введите название..."
+        name="q"
+        class="search_input"
+      />
+      <button type="submit" class="current_button">Искать</button>
     </form>
+
+    <button class="add_button">
+      <a href="{% url 'add_discussion' %}">Добавить обсуждение</a>
+    </button>
+  </div>
 </div>
-<hr>
-<button><a href="{% url 'add_discussion' %}">Добавить обсуждение</a></button>
-<hr>
+
+<div class="names_list">
+  <span class="name">Наименование</span>
+  <span class="name status">Статус</span>
+  <span class="name description">Описание</span>
+  <span class="name details">Детали</span>
+  <span class="name actions">Действия</span>
+</div>
 {% if discussions %}
-<ul>
-{% for d in discussions %}
-<li>
+<ul class="discussions_list">
+  {% for d in discussions %}
+  <li class="discussions_info">
     <h2>{{ d.title }}</h2>
     {% if d.status == '0' %}
-    <div style="color: red;"><p style="">Статус: Обсуждение закрыто</p></div>
+    <div style="color: red"><p style="">Статус: Обсуждение закрыто</p></div>
     {% else %}
     <p>Статус: Обсуждение открыто</p>
     {% endif %}
-    <p>{{ d.description }}</p>
-    <p>Автор: {{d.author}}</p>
-    <p>Время создания: {{ d.time_create }}</p>
-    <button class="btn btn-primary" data-mdb-ripple-init><a style="color: black; text-decoration: none;" href="{{ d.get_absolute_url }}">Подробнее</a></button>
-    <hr>
-</li>
-{% endfor %}
-
+    <p class="info">{{ d.description }}</p>
+    <p class="info">Автор: {{d.author}}</p>
+    <p class="data info">Время создания: {{ d.time_create }}</p>
+    <a href="{{ d.get_absolute_url }}">
+      <button class="moreButton" type="button" data-mdb-ripple-init>
+        Подробнее
+      </button>
+    </a>
+  </li>
+  {% endfor %}
 </ul>
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if discussions.has_previous %}
     <li class="page-item">
-        <a class="page-link" href="?page={{ discussions.previous_page_number }}">Предыдущая страница</a>
+      <a class="page-link" href="?page={{ discussions.previous_page_number }}"
+        >Предыдущая страница</a
+      >
     </li>
-    {% endif %}
-
-    {% for p in discussions.paginator.page_range %}
-    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
-    {% endfor %}
-
-    {% if discussions.has_next %}
+    {% endif %} {% for p in discussions.paginator.page_range %}
     <li class="page-item">
-        <a class="page-link" href="?page={{ discussions.next_page_number }}">Следующая страница</a>
+      <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+    </li>
+    {% endfor %} {% if discussions.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ discussions.next_page_number }}"
+        >Следующая страница</a
+      >
     </li>
     {% endif %}
   </ul>
 </nav>
 {% else %}
 <h2>Ничего не найдено</h2>
-{% endif %}
-
-{% endblock %}
+{% endif %} {% endblock %}

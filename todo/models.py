@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from slugify import slugify
 
+from calendars.models import Event
 from social.models import Discussions
 
 
@@ -13,10 +14,10 @@ class Task(models.Model):
 
     title = models.CharField(max_length=255, verbose_name='Название задачи')
     description = models.TextField(verbose_name='Описание задачи')
-    slug = models.SlugField(max_length=255, unique=True, null=False)
+    slug = models.SlugField(max_length=255, unique=True, null=True, default=None)
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='tasks', null=True, default=None)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания обсуждения')
-    deadline = models.DateTimeField(verbose_name='Дедлайн')
+    deadline = models.DateField(verbose_name='Дедлайн')
     status = models.IntegerField(choices=Status.choices, default=Status.OPEN, verbose_name='Статус')
     discussion = models.ForeignKey(Discussions, on_delete=models.CASCADE, related_name='tasks', null=True, default=None, blank=True)
 
@@ -27,6 +28,17 @@ class Task(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+
+        created = self.pk is None
+        super().save(*args, **kwargs)
+        if created:
+            Event.objects.create(
+                title=f"Event for {self.title}",
+                description=self.description,
+                start_time=self.time_create,
+                end_time=self.deadline,
+            )
+
         self.slug = slugify(self.title)
         return super(Task, self).save(*args, **kwargs)
 
@@ -44,7 +56,7 @@ class SubTask(models.Model):
     slug = models.SlugField(unique=True, editable=False)
     responsible = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='subtasks', null=True, default=None)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания обсуждения')
-    deadline = models.DateTimeField(verbose_name='Дедлайн')
+    deadline = models.DateField(verbose_name='Дедлайн')
     status = models.IntegerField(choices=Status.choices, default=Status.OPEN, verbose_name='Статус')
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='subtasks')
 
@@ -55,6 +67,16 @@ class SubTask(models.Model):
         ]
 
     def save(self, *args, **kwargs):
+        created = self.pk is None
+        super().save(*args, **kwargs)
+        if created:
+            Event.objects.create(
+                title=f"Event for {self.title}",
+                description=self.description,
+                start_time=self.time_create,
+                end_time=self.deadline,
+            )
+
         self.slug = slugify(self.title)
         return super(SubTask, self).save(*args, **kwargs)
 

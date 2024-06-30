@@ -41,14 +41,14 @@ def delete_selected_folders(request):
     if request.method == 'POST':
         form = DeleteFolderForm(request.POST)
         if form.is_valid():
-            delete_folders = form.cleaned_data['folders']
+            delete_folders = form.cleaned_data.get('folders')
             delete_folders.delete()
             messages.success(request, 'Папки успешно удалены')
             return redirect('cloud:cloud_list')
     else:
         form = DeleteFolderForm()
 
-        return render(request=request, template_name='cloud/delete-folder.html', context={'form': form})
+    return render(request=request, template_name='cloud/delete-folder.html', context={'form': form})
 
 
 @login_required()
@@ -71,5 +71,21 @@ def add_file(request, slug):
 @login_required()
 def delete_file(request, id):
     delete_files = get_object_or_404(File, id=id)
-    delete_files.delete()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    request.session['temp'] = {
+        'delete_files': delete_files.id
+    }
+    return redirect('cloud:delete_confirmation')
+
+
+def get_delete_confirmation(request):
+    temp = request.session['temp']
+    id = temp['delete_files']
+
+    return render(request, 'cloud/delete-confirmation.html', {'temp': temp, 'id': id})
+
+
+def confirm_delete(request, id):
+    file = File.objects.get(id=id)
+    file.delete()
+    request.session.pop('temp', None)
+    return redirect('cloud:cloud_list')

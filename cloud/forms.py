@@ -13,8 +13,12 @@ class DeleteFolderForm(forms.Form):
     folders = forms.ModelMultipleChoiceField(
         queryset=Folder.objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        label='Выберите папки'
+        label='Выберите папки',
+        error_messages={'required': 'Вы не выбрали ни одной папки! Для удаления выберите или создайте одну и более папок'}
     )
+
+
+
 
 
 class AddFile(forms.ModelForm):

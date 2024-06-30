@@ -1,10 +1,35 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-<h1>Профиль</h1>
+<h1 style="margin: 20px 0 20px 20px; font-size: 38px">Профиль</h1>
 
 <p>Ваш логин {{ user.username }}</p>
 <p>Ваша почта {{ user.email }}</p>
-<hr>
-<p><a href="{% url 'users:password_change' %}">Изменить пароль</a></p>
+<hr />
+<button class="moreButton">
+  <a href="{% url 'users:password_change' %}">Изменить пароль</a>
+</button>
+<style>
+  .moreButton {
+    font-size: 14px;
+    display: block;
+    width: 200px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 6px 6px 6px 6px;
+    background: none;
+    color: #ffffff80;
+    border: 2px solid #ffffff80;
+    border-radius: 5px;
+    margin: 20px 20px 20px 20px;
+    transition: 0.3s;
+  }
+  button:hover {
+    color: white;
+    border-color: white;
+  }
+  p {
+    margin-left: 20px;
+    font-size: 28px;
+  }
+</style>
 {% endblock %}

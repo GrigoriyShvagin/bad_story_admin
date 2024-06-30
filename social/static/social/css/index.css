@@ -1,0 +1,32 @@
+@font-face {
+  font-family: "LG";
+  src: url("../fonts/15779.otf");
+}
+
+.current-content-block {
+  padding: 0 4px 0 4px;
+}
+.last_move {
+  margin-bottom: 4px;
+  background: #3232328c;
+  padding: 15px;
+}
+.title {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42.66px;
+  letter-spacing: 2px;
+}
+.list_last_moves {
+  margin: 15px 0 15px 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21px;
+}
+.list_last_moves a {
+  border-bottom: 1px solid white;
+}
+.list_last_moves a:hover {
+  color: #24ff00;
+  border-color: #24ff00;
+}

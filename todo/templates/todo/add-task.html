@@ -1,10 +1,26 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>Добавить задачу</h1>
+{% extends 'base.html' %} {% block content %} {% load static %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/add-discussion.css' %}"
+/>
+
+<h1 style="margin: 0 0 20px 20px">Редактировать задачу</h1>
 <form method="POST">
   {% csrf_token %}
-  {{ form.as_p }}
-  <div class="form-error">{{ f.errors }}</div>
+   {{ form.title.label_tag }}
+   <p>{{ form.title }}</p>
+   <p>{{ form.description }}</p>
+
+   <input type="date" name="deadline" value="{{ value|date:'Y-m-d' }}">
+
+
+   {% if form.field_name.errors %}
+   <div class="errors">
+     {{ form.field_name.errors }}
+   </div>
+   {% endif %}
+
   <button type="submit">Добавить</button>
 </form>
 {% endblock %}

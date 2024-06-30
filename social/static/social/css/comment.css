@@ -1,0 +1,43 @@
+.current_buttons_list {
+  display: flex;
+  justify-content: space-between;
+}
+.comment_section {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+.comment_info {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+}
+.comment_text {
+  background: #ffffff80;
+  border-radius: 5px;
+  border: 1px solid #ffffff80;
+  width: 300px;
+  outline: none;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+.children {
+  margin-left: 30px;
+}
+button {
+  background: none;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 200px;
+  border: 1px solid #ffffff80;
+  outline: none;
+  color: #ffffff80;
+  margin-bottom: 20px;
+  padding: 5px;
+  margin-left: 20px;
+  transition: 0.3s;
+}
+button:hover {
+  border: 1px solid white;
+  color: white;
+}

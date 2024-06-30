@@ -1,5 +1,99 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %} {% load static %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/index.css' %}"
+/>
 
-{% block content %}
-<h1>Главная</h1>
-{% endblock %}
+<div class="current-content-block">
+  <div class="last_move">
+    <h4 class="title">Последние обсуждения</h4>
+    <ul class="list_last_moves">
+      {% if discussions %} {% for d in discussions %}
+      <li>
+        Пользователь {{d.author}} {{d.time_create}} создал обсуждение
+        <a href="{{ d.get_absolute_url }}">"{{d.title}}"</a>
+      </li>
+      {% endfor %} {% else %}
+      <li>Обсуждений нет</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="last_move">
+    <h4 class="title">Последние задачи</h4>
+    <ul class="list_last_moves">
+      {% if task %} {% for t in task %}
+      <li>
+        Пользователь {{t.author}} {{t.time_create}} создал задачу
+        <a href="{% url 'todo:task_page' t.slug %}">"{{t.title}}"</a>
+      </li>
+      {% endfor %} {% else %}
+      <li>Задач нет</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="last_move">
+    <h4 class="title">Последние добавленные ссылки</h4>
+    <ul class="list_last_moves">
+      <li><a href="{% url 'links:link_list' %}">Перейти в раздел ссылки</a></li>
+      {% if links %} {% for l in links %}
+      <li>
+        Пользователь {{l.author}} {{l.time_create}} добавил ссылку
+        {{l.title|default_if_none:"Названия нет"}}
+        <a href="{{ l.link }}">"{{ l.title }}"</a>
+      </li>
+      {% endfor %} {% else %}
+      <li>Ссылок нет</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="last_move">
+    <h4 class="title">Последние добавленные папки</h4>
+    <ul class="list_last_moves">
+      {% if folders %} {% for f in folders %}
+      <li>
+        Пользователь {{f.author}} {{f.time_create}} создал папку
+        <a href="{% url 'cloud:folder_detail' f.slug %}">"{{f.name}}"</a>
+      </li>
+      {% endfor %} {% else %}
+      <li>Папок нет</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="last_move">
+    <h4 class="title">Последние добавленные файлы</h4>
+    <ul class="list_last_moves">
+      {% if file %} {% for f in file %}
+      <li>
+        Пользователь {{f.author}} {{f.time_create}} добавил файл {{f.name}} в
+        папку
+        <a href="{% url 'cloud:folder_detail' f.folder.slug %}">{{f.folder}}</a>
+      </li>
+      {% endfor %} {% else %}
+      <li>Файлов нет</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="last_move">
+    <h4 class="title">Последние Комментарии</h4>
+    {% if comment %} {% for com in comment %}
+    <p>
+      Автор: <b>{{com.author}}</b>: написал {{com.body}} под обсуждением
+      <b
+        ><a href="{% url 'discussion' com.discussion.slug %}"
+          >{{com.discussion}}</a
+        ></b
+      >
+    </p>
+    {% endfor %} {% else %}
+    <p>Комментариев нет</p>
+    {% endif %} {% endblock %}
+  </div>
+</div>
+
+<style></style>

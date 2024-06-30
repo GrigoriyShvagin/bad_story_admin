@@ -10,7 +10,8 @@ class AddTaskForm(forms.ModelForm):
         model = Task
         fields = ['title', 'description', 'deadline']
         widgets = {
-            'deadline': forms.DateInput(attrs={'type': 'date'})
+            'deadline': forms.DateInput(attrs={'type': 'date'}),
+            'time_create': forms.DateTimeInput(attrs={'type': 'datetime-local'})
         }
 
 

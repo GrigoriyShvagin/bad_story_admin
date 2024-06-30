@@ -3,14 +3,23 @@ from django import forms
 from .models import Discussions, Comment
 from mptt.forms import TreeNodeChoiceField
 
+from tinymce.widgets import TinyMCE
+
 class AddDiscussionForm(forms.ModelForm):
 
     class Meta:
         model = Discussions
         fields = ['title', 'description', 'status']
-        widgets = {
-            'description': forms.Textarea(attrs={'cols': 50, 'rows': 5}),
-        }
+
+    def __init__(self, *args, **kwargs):
+        """
+        Обновление стилей формы под Bootstrap
+        """
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control', 'autocomplete': 'off'})
+
+        self.fields['description'].widget.attrs.update({'class': 'form-control django_ckeditor_5'})
 
 
 class CreateCommentForm(forms.ModelForm):

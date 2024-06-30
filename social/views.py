@@ -10,6 +10,8 @@ from .forms import AddDiscussionForm, CreateCommentForm
 
 from todo.forms import AddTaskForm
 
+from .services.lates import get_latest
+
 
 menu = [
     {'title': 'Главная', 'url': 'index'},
@@ -19,7 +21,9 @@ menu = [
 @login_required()
 def index(request):
 
-    return render(request=request, template_name='social/index.html')
+    data = get_latest()
+
+    return render(request=request, template_name='social/index.html', context=data)
 
 
 @login_required()
@@ -112,8 +116,26 @@ def add_discussion_task(request, slug):
 @login_required()
 def delete_discussion(request, slug):
     discussion = get_object_or_404(Discussions, slug=slug)
+
+    request.session['temp'] = {
+        'discussion_slug': discussion.slug
+    }
+
+    return redirect('delete_confirmation')
+
+
+def get_delete_confirmation(request):
+    temp = request.session['temp']
+    slug = temp['discussion_slug']
+
+    return render(request, 'social/delete-confirmation.html', {'temp': temp, 'slug': slug})
+
+
+def confirm_delete(request, slug):
+    discussion = get_object_or_404(Discussions, slug=slug)
     discussion.delete()
-    return HttpResponseRedirect(reverse('discussions'))
+    request.session.pop('temp', None)
+    return redirect('index')
 
 
 @login_required()

@@ -1,9 +1,44 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-   <form method="POST">
-       {% csrf_token %}
-       {{ form }}
-       <button type="submit">Удалить выбранные записи</button>
-   </form>
+<form method="POST">
+  {% csrf_token %} {{ form }}
+  <button type="submit" class="moreButton">Удалить выбранные записи</button>
+</form>
+<style>
+  label {
+    display: block;
+    font-size: 36px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    width: 200px;
+  }
+  input {
+    padding: 10px;
+    background: #ffffff80;
+    color: black;
+    border: 1px solid #ffffff80;
+    outline: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+  .moreButton {
+    font-size: 20px;
+    cursor: pointer;
+    width: 300px;
+    font-weight: 500;
+    padding: 6px 6px 6px 6px;
+    background: none;
+    color: #ffffff80;
+    border: 2px solid #ffffff80;
+    border-radius: 5px;
+    margin-left: 20px;
+    transition: 0.3s;
+    margin-bottom: 20px;
+  }
+  .moreButton:hover {
+    color: white;
+    border-color: white;
+  }
+</style>
 {% endblock %}

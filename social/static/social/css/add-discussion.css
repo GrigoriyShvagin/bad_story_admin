@@ -1,0 +1,70 @@
+@font-face {
+  font-family: "LG";
+  src: url("../fonts/15779.otf");
+}
+.ck-editor {
+  width: 80% !important;
+}
+p > input {
+  padding: 5px;
+  background: #ffffff80;
+  border-radius: 5px;
+  border: 1px solid #ffffff80;
+  width: 400px;
+  outline: none;
+  margin-bottom: 20px;
+}
+p > textarea {
+  background: #ffffff80;
+  border-radius: 5px;
+  border: 1px solid #ffffff80;
+  width: 410px;
+  outline: none;
+  margin-bottom: 20px;
+}
+p > select {
+  background: #ffffff80;
+  border-radius: 5px;
+  border: 1px solid #ffffff80;
+  width: 410px;
+  outline: none;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+button {
+  background: none;
+  cursor: pointer;
+  border-radius: 5px;
+
+  border: 2px solid #ffffff80;
+  width: 410px;
+  outline: none;
+  color: #ffffff80;
+  margin-bottom: 20px;
+  padding: 5px;
+  margin-left: 20px;
+  transition: 0.3s;
+}
+button:hover {
+  border: 2px solid white;
+  color: white;
+}
+.form_post {
+  color: black;
+  background: #3232328c;
+  display: flex;
+  flex-direction: column;
+}
+.form_post label {
+  color: white;
+}
+
+p {
+  display: flex;
+  max-width: 50%;
+  flex-direction: column;
+  color: white !important;
+}
+p > * {
+  margin-left: 20px;
+}

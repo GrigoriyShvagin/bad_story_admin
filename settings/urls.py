@@ -4,6 +4,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
+
     path('admin/', admin.site.urls),
     path('', include('social.urls')),
     path('todo/', include('todo.urls', namespace='todo')),
@@ -11,4 +14,5 @@ urlpatterns = [
     path('cloud/', include('cloud.urls', namespace='cloud')),
     path('calendar/', include('calendars.urls', namespace='calendar')),
     path('users/', include('users.urls', namespace='users')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

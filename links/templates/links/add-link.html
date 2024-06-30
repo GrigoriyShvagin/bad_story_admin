@@ -1,9 +1,13 @@
-{% extends 'base.html' %}
-{% block content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p}}
-    <div class="form-error">{{ f.errors }}</div>
-    <button type="submit">Добавить ссылку</button>
+{% extends 'base.html' %} {% block content %} {%load static%}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/add-link.css' %}"
+/>
+<form method="POST" class="post_menu">
+  {% csrf_token %} {{ form.as_p}}
+  <div class="form-error">{{ f.errors }}</div>
+  <button type="submit" class="moreButton">Добавить ссылку</button>
 </form>
+<style></style>
 {% endblock %}

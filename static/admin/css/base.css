@@ -2,6 +2,9 @@
     DJANGO Admin styles
 */
 
+.base{
+display:flex;
+}
 /* VARIABLE DEFINITIONS */
 html[data-theme="light"],
 :root {

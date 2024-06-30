@@ -1,0 +1,133 @@
+@font-face {
+  font-family: "LG";
+  src: url("../fonts/15772.otf");
+}
+.discussions_text_info > p {
+  width: 150px;
+}
+.discussions_text {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.current_page {
+  margin: 4px;
+  padding: 20px;
+  background: #3232328c;
+}
+.current_page_buttons_list {
+  display: flex;
+  justify-content: space-between;
+}
+.search_input {
+  padding: 10px;
+  background: #ffffff80;
+  color: black;
+  border: 1px solid #ffffff80;
+  outline: none;
+  border-radius: 5px;
+  align-items: center;
+}
+.search_input::placeholder {
+  color: black;
+  font-size: 16px;
+}
+.post_form {
+  width: 30%;
+  align-items: center;
+  display: flex;
+}
+.current_button {
+  width: 19%;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 6px 0 6px 0;
+  background: none;
+  color: white;
+  border: 2px solid white;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 4px;
+}
+.add_button {
+  width: 272px;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 6px 6px 6px 6px;
+  background: none;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+.names_list {
+  margin: 20px 4px 0 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ffffff80;
+}
+.discussions_list {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.discussions_info {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ffffff80;
+}
+.name {
+  width: 150px;
+  text-align: left;
+}
+.info {
+  width: 200px;
+}
+.name:last-of-type {
+  width: 90px;
+  text-align: right;
+  margin-right: 30px;
+}
+.details {
+  width: 120px;
+  padding-left: 50px;
+}
+.description {
+  text-align: left;
+  padding-right: 70px;
+}
+.link {
+  cursor: pointer;
+}
+.moreButton {
+  font-size: 14px;
+  cursor: pointer;
+  height: 30px;
+  font-weight: 500;
+  padding: 6px 6px 6px 6px;
+  background: none;
+  color: #ffffff80;
+  border: 2px solid #ffffff80;
+  border-radius: 5px;
+  margin-right: 20px;
+  transition: 0.3s;
+}
+.moreButton:hover {
+  color: white;
+  border-color: white;
+}
+
+.status {
+  width: 200px;
+}
+body {
+  background: url(../css/myboy.jpg);
+}

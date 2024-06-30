@@ -9,6 +9,7 @@ from .forms import UserLoginForm, UserPasswordChangeForm
 
 
 def get_login(request):
+
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -19,7 +20,12 @@ def get_login(request):
                 return HttpResponseRedirect(reverse('users:profile'))
     else:
         form = UserLoginForm()
-        return render(request=request, template_name='users/login.html', context={'form': form})
+
+    data = {
+        'form': form,
+    }
+
+    return render(request=request, template_name='users/login.html', context=data)
 
 
 

@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.text import slugify
-from uuslug import slugify
+from slugify import slugify
 from mptt.models import MPTTModel, TreeForeignKey
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Discussions(models.Model):
@@ -12,12 +13,13 @@ class Discussions(models.Model):
         OPEN = 1, 'Открыто'
 
     title = models.CharField(max_length=255, verbose_name='Название обсуждения')
-    description = models.TextField(blank=True, verbose_name='Описание обсуждения')
+    description = CKEditor5Field(blank=True, verbose_name='Описание обсуждения')
     status = models.IntegerField(choices=Status.choices, default=Status.OPEN)
     slug = models.SlugField(max_length=250, unique=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания обсуждения')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время обновления обсуждения')
     author = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, related_name='discussions', null=True, default=None)
+
 
     class Meta:
         ordering = ['-time_create']

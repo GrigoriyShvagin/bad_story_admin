@@ -1,23 +1,66 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/cloud-list.css' %}"
+/>
 
 {% block content %}
 <h1>Cloud</h1>
-<button><a href="{% url 'cloud:add_folder' %}">Создать папку</a></button>
-<button><a href="{% url 'cloud:delete_folders' %}">Выбрать папки</a></button>
+<div class="buttons_list">
+  <a href="{% url 'cloud:add_folder' %}">
+    <button class="moreButton">Создать папку</button>
+  </a>
+  <a href="{% url 'cloud:delete_folders' %}">
+    <button class="moreButton">Выбрать папки</button>
+  </a>
+</div>
 <ul>
-    {% for folder in folders %}
-    <li style="list-style-type: none;">
-        <a href="{% url 'cloud:folder_detail' folder.slug %}">
-            <img style="width: 20px; height: 20px; position:absolute; margin-right: 100%; margin-top: -2px;" src="{% static 'images/folder.png' %}">
-        </a>
-        <p style="margin-left:25px;"><a href="{% url 'cloud:folder_detail' folder.slug %}">{{ folder.name }}</a></p>
-        <p>Папку создал {{folder.author}} в {{folder.time_create}}</p>
-    </li>
-    {% endfor %}
-    {% for message in messages %}
-    {{ message }}
-    {% endfor %}
+  {% for folder in folders %}
+  <li style="list-style-type: none; border: 1px solid white">
+    <p style="margin-left: 25px; margin-top: 20px">
+      <a href="{% url 'cloud:folder_detail' folder.slug %}"
+        >{{ folder.name }}</a
+      >
+    </p>
+    <p style="margin-left: 25px; margin-bottom: 20px">
+      {{folder.author}} в {{folder.time_create}}
+    </p>
+    <a href="{% url 'cloud:folder_detail' folder.slug %}" class="moreButton">
+      Добавить файл
+    </a>
+  </li>
+  {% endfor %} {% for message in messages %} {{ message }} {% endfor %}
 </ul>
+<style>
+  .buttons_list {
+    display: flex;
+  }
+  .moreButton {
+    font-size: 14px;
+    display: block;
+    width: 200px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 6px 6px 6px 6px;
+    background: none;
+    color: #ffffff80;
+    border: 2px solid #ffffff80;
+    border-radius: 5px;
+    margin: 20px 20px 20px 20px;
+    transition: 0.3s;
+  }
+  .names_list {
+    margin: 20px 4px 0 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ffffff80;
+  }
+  .moreButton:hover {
+    color: white;
+    border-color: white;
+  }
+</style>
 
 {% endblock %}

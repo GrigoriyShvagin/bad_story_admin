@@ -1,14 +1,48 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <form method="POST">
-    <h1>Вход в аккаунт</h1>
-    {% csrf_token %}
-    {{ form.as_p }}
+  <h1>Вход в аккаунт</h1>
+  {% csrf_token %} {{ form.as_p }}
 
-    <button type="submit">Войти</button>
+  <button type="submit" class="moreButton">Войти</button>
 </form>
 
-<p ><a href="{% url 'users:password_reset' %}">Забыли пароль?</a></p>
-
+<p style="margin-left: 20px">
+  <a href="{% url 'users:password_reset' %}">Забыли пароль?</a>
+</p>
+<style>
+  input {
+    background: #ffffff80;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid #ffffff80;
+    width: 410px;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 5px;
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  input ::placeholder {
+    color: black !important;
+  }
+  .moreButton {
+    font-size: 20px;
+    cursor: pointer;
+    width: 420px;
+    font-weight: 500;
+    padding: 6px 6px 6px 6px;
+    background: none;
+    color: #ffffff80;
+    border: 2px solid #ffffff80;
+    border-radius: 5px;
+    margin-left: 20px;
+    transition: 0.3s;
+    margin-bottom: 20px;
+  }
+  .moreButton:hover {
+    color: white;
+    border-color: white;
+  }
+</style>
 {% endblock %}

@@ -1,48 +1,125 @@
-{% load mptt_tags %}
+{% load mptt_tags %} {%load static%}
 
-<div>
-{% recursetree discussion.comments.all %}
-    <!--Основной комментарий-->
-    <div id="{{ node.id }}" style="border: 1px solid grey; margin: 15px;">
-    <div>Автор {{node.author}}</div><div>Дата создания: {{node.created}}</div>
-    <div>Комменатрий: {{node.body}}</div>
-    {% if node.level < 10 %}
-    <button class="button" onclick="myFunction({{ node.id }})">Ответить</button>
-    <p><a href="{% url 'delete_comment' node.id %}">Удалить комментарий</a></p>
-    {% endif %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'social/css/comment.css' %}"
+/>
+
+<div class="">
+  {% recursetree discussion.comments.all %}
+  <!--Основной комментарий-->
+  <div class="comment_section" id="{{ node.id }}">
+    <div class="comment_info">
+      <div class="comment_author">
+        <div>{{node.author}}</div>
+        <div>{{node.created}}</div>
+      </div>
+      <div class="comment_text">{{node.body}}</div>
     </div>
+    {% if node.level < 10 %}
+    <div class="current_buttons_list">
+      <button class="moreButton" onclick="myFunction({{ node.id }})">
+        Ответить
+      </button>
+      <a href="{% url 'delete_comment' node.id %}">
+        <button class="moreButton">Удалить комментарий</button>
+      </a>
+    </div>
+    {% endif %}
+  </div>
 
-    <!--Проверка есть ли у него дочерние комментарии-->
-    {% if not node.is_leaf_node %}
-    <div class="children">
+  <!--Проверка есть ли у него дочерние комментарии-->
+  {% if not node.is_leaf_node %}
+  <div class="children">
     <p>Ответ для: {{node.author}}</p>
     {{ children }}
-    </div>
-    {% endif %}
-{% endrecursetree %}
+  </div>
+  {% endif %} {% endrecursetree %}
 </div>
+<style>
+  .newFormButtons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .current_buttons_list {
+    display: flex;
+    justify-content: space-between;
+  }
+  .comment_section {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 400px;
+  }
+  .comment_info {
+    display: flex;
+    justify-content: space-between;
+    width: 400px;
+  }
+  .comment_author {
+    width: 200px;
+  }
+  .comment_text {
+    background: #ffffff80;
+    border-radius: 5px;
+    border: 1px solid #ffffff80;
+    width: 300px;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 5px;
+  }
+  .children {
+    margin-left: 30px;
+  }
+  button {
+    background: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 200px;
+    border: 1px solid #ffffff80;
+    outline: none;
+    color: #ffffff80;
+    margin-bottom: 20px;
+    padding: 5px;
+    margin-left: 20px;
+    transition: 0.3s;
+  }
+  button:hover {
+    border: 1px solid white;
+    color: white;
+  }
+  #id_parent option {
+    color: black;
+  }
+</style>
 <script>
-    function formExit(id) {
+  function formExit(id) {
+    document.getElementById("newForm").remove();
+  }
+
+  function myFunction(id) {
+    if (document.contains(document.getElementById("newForm"))) {
       document.getElementById("newForm").remove();
     }
 
-    function myFunction(id) {
-
-      if (document.contains(document.getElementById("newForm"))) {
-        document.getElementById("newForm").remove();
-      }
-
-      var a = document.getElementById(id);
-      a.insertAdjacentHTML('afterend',
+    var a = document.getElementById(id);
+    a.insertAdjacentHTML(
+      "afterend",
       '<form method="POST" id="newForm">\
       {% csrf_token %}\
-      <input type="text" name="body" maxlength="255" required="" id="id_body">\
+      <textarea type="text" name="body" maxlength="255" required="" id="myForm"></textarea>\
       <select name="parent" class="d-none" id="id_parent">\
-      <option value="' + id + '" selected="'+ id +'"></option>\
+      <option value="' +
+        id +
+        '" selected="' +
+        id +
+        '"></option>\
       </select> \
-      <div class="d-flex justify-content-left"><div><button type="submit">Добавить</button></div><div><button type="button" onclick="formExit()">Закрыть</button></div>\
-      </form>');
-    }
+      <div class="newFormButtons"><button type="submit">Добавить</button><button type="button" onclick="formExit()">Закрыть</button>\
+      </form>'
+    );
+  }
 
- $('#myForm').trigger('reset');
+  $("#myForm").trigger("reset");
 </script>

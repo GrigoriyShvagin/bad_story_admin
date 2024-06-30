@@ -1,0 +1,55 @@
+@font-face {
+  font-family: "LG";
+  src: url("../fonts/15772.otf");
+}
+a {
+  transition: 0.3s;
+}
+.moreButton {
+  font-size: 14px;
+  width: 20%;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 6px 6px 6px 6px;
+  background: none;
+  color: #ffffff80;
+  border: 2px solid #ffffff80;
+  border-radius: 5px;
+  margin: 20px 20px 0px 20px;
+  transition: 0.3s;
+}
+a:hover {
+  color: #24ff00;
+}
+.names_list {
+  margin: 20px 4px 0 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ffffff80;
+}
+.moreButton:hover {
+  color: white;
+  border-color: white;
+}
+.current_link {
+  margin: 20px 0 0 20px;
+  align-items: center;
+}
+
+.current_link > p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+p > div {
+  width: 150px;
+}
+span {
+  display: flex;
+  align-items: center;
+}
+.details {
+}
+.actions {
+  margin-right: 10%;
+}

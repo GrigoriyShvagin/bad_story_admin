@@ -11,4 +11,6 @@ urlpatterns = [
 
     path('folder-detail/<slug:slug>/add-file/', views.add_file, name='add_file'),
     path('delete-files/<int:id>', views.delete_file, name='delete_file'),
+    path('delete-confirmation/', views.get_delete_confirmation, name='delete_confirmation'),
+    path('confirm-delete/<int:id>', views.confirm_delete, name='confirm'),
 ]

@@ -1,25 +1,54 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
-<h4><a href="{% url 'cloud:cloud_list' %}"><<<</a></h4>
-<img style="width: 20px; height: 20px; position:absolute; margin-right: 100%; margin-top: 3px;" src="{% static 'images/folder.png' %}">
-<h4 style="margin-left: 24px; margin-bottom: -5px;">{{ folder.name }}</h4>
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h1 style="margin-left: 24px; margin-bottom: -5px">{{ folder.name }}</h1>
 
-<p><button><a href="{% url 'cloud:add_file' folder.slug %}">Добавить файл</a></button></p>
+<p>
+  <button class="moreButton">
+    <a href="{% url 'cloud:add_file' folder.slug %}">Добавить файл</a>
+  </button>
+</p>
 
+{% for file in folder.file_set.all %}
+<div style="display: inline-block; padding: 30px">
+  <h4>Название файла - "{{file.name}}"</h4>
+  <p>Файл добавил {{file.author}} в {{file.time_create}}</p>
+  <button class="moreButton"><a href="{{ file.file.url }}">Скачать</a></button>
+  <button class="moreButton">
+    <a href="{% url 'cloud:delete_file' file.id %}">Удалить</a>
+  </button>
+</div>
 
-
-  {% for file in folder.file_set.all %}
-    <div style="display: inline-block; padding: 30px;">
-    <h4>Название файла - "{{file.name}}"</h4>
-    <p>Файл добавил {{file.author}} в {{file.time_create}}</p>
-    <button><a href="{{ file.file.url }}">Скачать</a></button>
-    <button><a href="{% url 'cloud:delete_file' file.id %}">Удалить</a></button>
-    </div>
-
-  {% endfor %}
-
-
-
-
+{% endfor %}<style>
+  p > button {
+    font-size: 14px;
+    display: block;
+    width: 200px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 6px 6px 6px 6px;
+    background: none;
+    color: #ffffff80;
+    border: 2px solid #ffffff80;
+    border-radius: 5px;
+    margin: 20px 20px 20px 20px;
+    transition: 0.3s;
+  }
+  .moreButton {
+    font-size: 14px;
+    display: block;
+    width: 200px;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 6px 6px 6px 6px;
+    background: none;
+    color: #ffffff80;
+    border: 2px solid #ffffff80;
+    border-radius: 5px;
+    margin: 20px 20px 20px 20px;
+    transition: 0.3s;
+  }
+  button:hover {
+    color: white;
+    border-color: white;
+  }
+</style>
 {% endblock %}
